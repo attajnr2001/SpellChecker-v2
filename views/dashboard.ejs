@@ -8,12 +8,12 @@
         <div class="segment-title"></div>
         <div class="segment">
           <div class="flip-card" data-hours-tens>
-            <div class="top">2</div>
-            <div class="bottom">2</div>
+            <div class="top">0</div>
+            <div class="bottom">0</div>
           </div>
           <div class="flip-card" data-hours-ones>
-            <div class="top">4</div>
-            <div class="bottom">4</div>
+            <div class="top">0</div>
+            <div class="bottom">0</div>
           </div>
         </div>
       </div>
@@ -59,10 +59,13 @@
   </grammarly-editor-plugin>
 
   <div class="buttons my-2">
-    <button class="btn btn-danger">
-      <i class="bi bi-skip-start-circle"></i>
+    <button id="startButton" class="btn btn-danger">
+      <i class="bi bi-skip-start-circle"></i> Start
     </button>
-    <button class="btn btn-primary"><i class="bi bi-stop-circle"></i></button>
+    <button id="stopButton" class="btn btn-primary">
+      <i class="bi bi-stop-circle"></i> Stop
+    </button>
+
     <button class="btn btn-success"><i class="bi bi-save-fill"></i></button>
   </div>
 </div>
@@ -71,12 +74,28 @@
 
 <!-- timer script and css -->
 <script>
-  let startTime = new Date().getTime();
-  setInterval(() => {
-    const currentTime = new Date().getTime();
-    const elapsedTime = Math.floor((currentTime - startTime) / 1000);
-    flipAllCards(elapsedTime);
-  }, 250);
+  let startTime = 0;
+  let timerInterval;
+
+  const startButton = document.getElementById("startButton");
+
+  const stopButton = document.getElementById("stopButton");
+
+  startButton.addEventListener("click", () => {
+    startTime = new Date().getTime();
+
+    timerInterval = setInterval(() => {
+      const currentTime = new Date().getTime();
+      const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+      flipAllCards(elapsedTime);
+    }, 250);
+  });
+
+  // Event listener for the "Stop" button
+  stopButton.addEventListener("click", () => {
+    // Clear the interval to stop the timer
+    clearInterval(timerInterval);
+  });
 
   function flipAllCards(time) {
     const seconds = time % 60;
@@ -237,9 +256,7 @@
   aria-labelledby="offcanvasScrollingLabel"
 >
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
-      Offcanvas with body scrolling
-    </h5>
+    <h5 class="offcanvas-title" id="offcanvasScrollingLabel">MENU</h5>
     <button
       type="button"
       class="btn-close"
@@ -248,6 +265,6 @@
     ></button>
   </div>
   <div class="offcanvas-body">
-    <p>Try scrolling the rest of the page to see this option in action.</p>
+    <p><a href="/">Progress</a></p>
   </div>
 </div>

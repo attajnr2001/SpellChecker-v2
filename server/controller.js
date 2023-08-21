@@ -9,3 +9,7 @@ exports.register  = (req, res) => {
 exports.dashboard  = (req, res) => {
    res.render("dashboard")
 }
+
+exports.progress  = (req, res) => {
+   res.render("progress")
+}
