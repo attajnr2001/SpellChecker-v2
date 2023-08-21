@@ -1,0 +1,30 @@
+.welcome main,
+.register main {
+  min-height: 100vh;
+  background-image: linear-gradient(rgba(0, 183, 255, 0.7254901961), rgba(255, 255, 255, 0.7333333333)), url("../resources/4212810.jpg");
+  background-position: center;
+  background-size: cover;
+}
+.welcome main label,
+.register main label {
+  font-weight: bold;
+}
+.welcome main .container,
+.register main .container {
+  max-width: 900px;
+  max-height: 95%;
+}
+.welcome main .formContainer,
+.register main .formContainer {
+  display: grid;
+  gap: 1em;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 800px) {
+  .register main .formContainer {
+    display: grid;
+    gap: 1em;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}/*# sourceMappingURL=style.css.map */

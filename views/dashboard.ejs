@@ -1,0 +1,253 @@
+<%- include("./partials/navbar.ejs") %>
+<link rel="stylesheet" href="./../style.css" />
+
+<div class="dashboard container">
+  <div class="container2 mb-5">
+    <div class="counter">
+      <div class="container-segment">
+        <div class="segment-title"></div>
+        <div class="segment">
+          <div class="flip-card" data-hours-tens>
+            <div class="top">2</div>
+            <div class="bottom">2</div>
+          </div>
+          <div class="flip-card" data-hours-ones>
+            <div class="top">4</div>
+            <div class="bottom">4</div>
+          </div>
+        </div>
+      </div>
+      <div class="container-segment">
+        <div class="segment-title"></div>
+        <div class="segment">
+          <div class="flip-card" data-minutes-tens>
+            <div class="top">0</div>
+            <div class="bottom">0</div>
+          </div>
+          <div class="flip-card" data-minutes-ones>
+            <div class="top">0</div>
+            <div class="bottom">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="container-segment">
+        <div class="segment-title"></div>
+        <div class="segment">
+          <div class="flip-card" data-seconds-tens>
+            <div class="top">0</div>
+            <div class="bottom">0</div>
+          </div>
+          <div class="flip-card" data-seconds-ones>
+            <div class="top">0</div>
+            <div class="bottom">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <grammarly-editor-plugin>
+    <div class="form-floating">
+      <textarea
+        class="form-control"
+        placeholder="Leave a comment here"
+        id="floatingTextarea2"
+        style="height: 130px"
+      ></textarea>
+      <label for="floatingTextarea2">Happy Typing...</label>
+    </div>
+  </grammarly-editor-plugin>
+
+  <div class="buttons my-2">
+    <button class="btn btn-danger">
+      <i class="bi bi-skip-start-circle"></i>
+    </button>
+    <button class="btn btn-primary"><i class="bi bi-stop-circle"></i></button>
+    <button class="btn btn-success"><i class="bi bi-save-fill"></i></button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@grammarly/editor-sdk?clientId=client_FpQ6j9x4EbgFgyYwAvDAZz"></script>
+
+<!-- timer script and css -->
+<script>
+  let startTime = new Date().getTime();
+  setInterval(() => {
+    const currentTime = new Date().getTime();
+    const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+    flipAllCards(elapsedTime);
+  }, 250);
+
+  function flipAllCards(time) {
+    const seconds = time % 60;
+    const minutes = Math.floor(time / 60) % 60;
+    const hours = Math.floor(time / 3600);
+
+    flip(document.querySelector("[data-hours-tens]"), Math.floor(hours / 10));
+    flip(document.querySelector("[data-hours-ones]"), hours % 10);
+    flip(
+      document.querySelector("[data-minutes-tens]"),
+      Math.floor(minutes / 10)
+    );
+    flip(document.querySelector("[data-minutes-ones]"), minutes % 10);
+    flip(
+      document.querySelector("[data-seconds-tens]"),
+      Math.floor(seconds / 10)
+    );
+    flip(document.querySelector("[data-seconds-ones]"), seconds % 10);
+  }
+
+  function flip(flipCard, newNumber) {
+    const topHalf = flipCard.querySelector(".top");
+    const startNumber = parseInt(topHalf.textContent);
+    if (newNumber === startNumber) return;
+
+    const bottomHalf = flipCard.querySelector(".bottom");
+    const topFlip = document.createElement("div");
+    topFlip.classList.add("top-flip");
+    const bottomFlip = document.createElement("div");
+    bottomFlip.classList.add("bottom-flip");
+
+    top.textContent = startNumber;
+    bottomHalf.textContent = startNumber;
+    topFlip.textContent = startNumber;
+    bottomFlip.textContent = newNumber;
+
+    topFlip.addEventListener("animationstart", (e) => {
+      topHalf.textContent = newNumber;
+    });
+    topFlip.addEventListener("animationend", (e) => {
+      topFlip.remove();
+    });
+    bottomFlip.addEventListener("animationend", (e) => {
+      bottomHalf.textContent = newNumber;
+      bottomFlip.remove();
+    });
+    flipCard.append(topFlip, bottomFlip);
+  }
+</script>
+
+<style>
+  * {
+    color: crimson;
+  }
+
+  .bi {
+    color: white;
+  }
+  .flip-card {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 0.1em;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  .top,
+  .bottom,
+  .flip-card .top-flip,
+  .flip-card .bottom-flip {
+    height: 0.75em;
+    line-height: 1;
+    padding: 0.25em;
+    overflow: hidden;
+  }
+
+  .top,
+  .flip-card .top-flip {
+    background-color: #f7f7f7;
+    border-top-right-radius: 0.1em;
+    border-top-left-radius: 0.1em;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .bottom,
+  .flip-card .bottom-flip {
+    background-color: white;
+    display: flex;
+    align-items: flex-end;
+    border-bottom-right-radius: 0.1em;
+    border-bottom-left-radius: 0.1em;
+  }
+
+  .flip-card .top-flip {
+    position: absolute;
+    width: 100%;
+    animation: flip-top 250ms ease-in;
+    transform-origin: bottom;
+  }
+
+  @keyframes flip-top {
+    100% {
+      transform: rotateX(90deg);
+    }
+  }
+
+  .flip-card .bottom-flip {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    animation: flip-bottom 250ms ease-out 250ms;
+    transform-origin: top;
+    transform: rotateX(90deg);
+  }
+
+  @keyframes flip-bottom {
+    100% {
+      transform: rotateX(0deg);
+    }
+  }
+
+  .container2 {
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+  }
+
+  .counter {
+    display: flex;
+    gap: 0.5em;
+  }
+
+  .container-segment {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1em;
+    align-items: center;
+  }
+
+  .segment {
+    display: flex;
+    gap: 0.1em;
+  }
+
+  .segment-title {
+    font-size: 1rem;
+  }
+</style>
+
+<div
+  class="offcanvas offcanvas-start"
+  data-bs-scroll="true"
+  data-bs-backdrop="false"
+  tabindex="-1"
+  id="offcanvasScrolling"
+  aria-labelledby="offcanvasScrollingLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
+      Offcanvas with body scrolling
+    </h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <p>Try scrolling the rest of the page to see this option in action.</p>
+  </div>
+</div>
