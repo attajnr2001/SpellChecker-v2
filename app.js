@@ -7,10 +7,12 @@ const route = require("./server/routes");
 app.use(layouts);
 
 app.use(express.static("public"));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.set("layout", "./layouts/main");
 app.set("view engine", "ejs");
 
-app.use("/", route)
+app.use("/", route);
 app.listen(port, () => {
   console.log("listening on port", port);
 });
